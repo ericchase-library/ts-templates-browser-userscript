@@ -9,6 +9,11 @@ Userscripts are used with extensions like Greasemonkey, Violentmonkey, Tampermon
 - [Violentmonkey for Chrome](https://addons.mozilla.org/en-US/firefox/addon/styl-us/)
 - [Violentmonkey for Firefox](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/)
 
+Try out the example script in this repo:
+
+- Click and install: https://github.com/ericchase-library/ts-templates-browser-userscript/raw/refs/heads/main/out/com.example.user.js
+- Visit: https://example.com/
+
 For examples, take a look at my personal userscript repo:
 
 - https://github.com/ericchase/browseruserscripts
