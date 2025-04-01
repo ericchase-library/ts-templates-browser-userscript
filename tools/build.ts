@@ -1,3 +1,4 @@
+import { Processor_UserscriptBundler } from './lib-browser-userscript/Processor-UserscriptBundler.js';
 import { Builder } from './lib/Builder.js';
 import { Processor_BasicWriter } from './lib/processors/FS-BasicWriter.js';
 import { Processor_HTML_CustomComponent } from './lib/processors/HTML-CustomComponent.js';
@@ -7,7 +8,6 @@ import { Step_Bun_Run } from './lib/steps/Bun-Run.js';
 import { Step_DevServer } from './lib/steps/Dev-Server.js';
 import { Step_CleanDirectory } from './lib/steps/FS-CleanDirectory.js';
 import { Step_Format } from './lib/steps/FS-Format.js';
-import { Processor_UserscriptBundler } from './Processor-UserscriptBundler.js';
 
 const builder = new Builder(Bun.argv[2] === '--watch' ? 'watch' : 'build');
 
@@ -23,14 +23,11 @@ builder.setProcessorModules(
   Processor_HTML_CustomComponent(),
   Processor_HTML_ImportConverter(),
   Processor_UserscriptBundler({ sourcemap: 'none' }),
-  // Processor_TypeScript_GenericBundler({ sourcemap: 'none', target: 'browser' }),
-  // Processor_TypeScript_GenericBundlerImportRemapper(),
-  Processor_BasicWriter(['**/*'], [`**/*${ts_tsx_js_jsx}`, `${builder.dir.lib.standard}/**/*`]),
-  Processor_BasicWriter([`**/*{.user}${ts_tsx_js_jsx}`], []),
+  // skip files in @todo folder
+  Processor_BasicWriter([`**/*{.user}${ts_tsx_js_jsx}`, '**/index.html'], []), //
 );
 
 builder.setAfterProcessingSteps(
-  // Step_GenerateLinks(),
   Step_DevServer(), //
 );
 
