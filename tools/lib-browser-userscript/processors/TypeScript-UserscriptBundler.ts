@@ -3,7 +3,7 @@ import { Logger } from '../../../src/lib/ericchase/Utility/Logger.js';
 import { BuilderInternal, ProcessorModule, ProjectFile } from '../../lib/Builder.js';
 import { pattern, ProcessBunBuildResults } from '../../lib/processors/TypeScript-GenericBundler.js';
 
-const logger = Logger(Processor_UserscriptBundler.name);
+const logger = Logger(Processor_TypeScript_UserscriptBundler.name);
 
 type Options = Parameters<typeof Bun.build>[0];
 interface Config {
@@ -13,11 +13,11 @@ interface Config {
 }
 
 // External pattern cannot contain more than one "*" wildcard.
-export function Processor_UserscriptBundler(config: Config): ProcessorModule {
-  return new CProcessor_UserscriptBundler(config);
+export function Processor_TypeScript_UserscriptBundler(config: Config): ProcessorModule {
+  return new CProcessor_TypeScript_UserscriptBundler(config);
 }
 
-class CProcessor_UserscriptBundler implements ProcessorModule {
+class CProcessor_TypeScript_UserscriptBundler implements ProcessorModule {
   channel = logger.newChannel();
 
   bundlefile_set = new Set<ProjectFile>();

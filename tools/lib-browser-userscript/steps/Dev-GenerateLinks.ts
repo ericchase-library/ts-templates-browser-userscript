@@ -3,13 +3,13 @@ import { Logger } from '../../../src/lib/ericchase/Utility/Logger.js';
 import { BuilderInternal, Step } from '../../lib/Builder.js';
 import { pattern } from '../../lib/processors/TypeScript-GenericBundler.js';
 
-const logger = Logger(Step_GenerateLinks.name);
+const logger = Logger(Step_DevGenerateLinks.name);
 
-export function Step_GenerateLinks(): Step {
-  return new CStep_GenerateLinks();
+export function Step_DevGenerateLinks(): Step {
+  return new CStep_DevGenerateLinks();
 }
 
-class CStep_GenerateLinks implements Step {
+class CStep_DevGenerateLinks implements Step {
   channel = logger.newChannel();
 
   async onRun(builder: BuilderInternal): Promise<void> {

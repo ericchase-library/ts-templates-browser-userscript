@@ -1,4 +1,4 @@
-import { Processor_UserscriptBundler } from './lib-browser-userscript/processors/TypeScript-UserscriptBundler.js';
+import { Processor_TypeScript_UserscriptBundler } from './lib-browser-userscript/processors/TypeScript-UserscriptBundler.js';
 import { Builder } from './lib/Builder.js';
 import { Processor_BasicWriter } from './lib/processors/FS-BasicWriter.js';
 import { Processor_HTML_CustomComponent } from './lib/processors/HTML-CustomComponent.js';
@@ -40,16 +40,20 @@ builder.setBeforeProcessingSteps();
 builder.setProcessorModules(
   Processor_HTML_CustomComponent(),
   Processor_HTML_ImportConverter(),
-  Processor_UserscriptBundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
-  // for hot refresh
+  // Bundle the userscripts.
+  Processor_TypeScript_UserscriptBundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
+  // Bundle the modules for hot refresh.
   Processor_TypeScript_GenericBundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
   Processor_TypeScript_GenericBundlerImportRemapper(),
+  // Write bundled files.
   Processor_BasicWriter([`**/*${pattern.moduleoriife}`, `**/*{.user}${pattern.tstsxjsjsx}`, '**/index.html'], []),
   //
 );
 
 // These steps are run after each processing phase.
 builder.setAfterProcessingSteps(
+  // During "dev" mode (when "--watch" is passed as an argument), the server
+  // will start running with hot refreshing if enabled in your index file.
   Step_DevServer(),
   //
 );

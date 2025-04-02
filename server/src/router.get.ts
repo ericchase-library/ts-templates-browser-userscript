@@ -34,13 +34,7 @@ async function getPublicResource(pathname: string): Promise<Response | undefined
     if (resource_path.startsWith(public_path)) {
       const resource_file = Bun.file(resource_path.raw);
       if (await resource_file.exists()) {
-        const response = new Response(resource_file);
-        // NOTE: This lets your userscript access resources from the dev server
-        // on any website. This server is intended for testing purposes! Do not
-        // do this on a server accessible from the internet unless you really
-        // know what you're doing!
-        response.headers.append('Access-Control-Allow-Origin', '*');
-        return response;
+        return new Response(resource_file);
       }
     }
   }
