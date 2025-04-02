@@ -1,7 +1,7 @@
 import { Path } from '../../src/lib/ericchase/Platform/FilePath.js';
 import { Logger } from '../../src/lib/ericchase/Utility/Logger.js';
 import { BuilderInternal, Step } from '../lib/Builder.js';
-import { ts_tsx_js_jsx } from '../lib/processors/TypeScript-GenericBundler.js';
+import { pattern } from '../lib/processors/TypeScript-GenericBundler.js';
 
 const logger = Logger(Step_GenerateLinks.name);
 
@@ -14,10 +14,9 @@ class CStep_GenerateLinks implements Step {
 
   async onRun(builder: BuilderInternal): Promise<void> {
     this.channel.log('Generate Links');
-
     const atags: string[] = [];
     for (const file of builder.files) {
-      if (builder.platform.Utility.globMatch(file.src_path.standard, `**/*{.user}${ts_tsx_js_jsx}`) === true) {
+      if (builder.platform.Utility.globMatch(file.src_path.standard, `**/*{.user}${pattern.tstsxjsjsx}`) === true) {
         atags.push(`<a href="./${file.out_path.basename}" target="_blank">${file.out_path.basename}</a>`);
       }
     }

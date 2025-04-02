@@ -80,56 +80,66 @@ class ElementAddedObserver {
   }
 }
 
-// src/com.example.user.ts
-async function main() {
-  if (document && "adoptedStyleSheets" in document) {
-    const stylesheet = new CSSStyleSheet;
-    stylesheet.replaceSync(`
-.rainbow-text{
-	position: relative;
-	color: #000;
-	background: #fff;
-	mix-blend-mode: multiply;
+// src/rainbow-text.css
+var rainbow_text_default = `/* Found this stylesheet at https://codepen.io/MauriciAbad/pen/eqvKMx */
+
+.rainbow-text {
+  position: relative;
+  color: #000;
+  background: #fff;
+  mix-blend-mode: multiply;
   overflow: hidden;
-  
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   padding: 2px 4px 6px;
   margin: -2px -4px -6px;
 }
-.rainbow-text::before{
-	content: "";
-	position: absolute;
-	top:0;right:0;bottom:0;left:-100%;
-	background: white repeating-linear-gradient(90deg, #14ffe9 0%, #ffc800 16.66666%, #ff00e0 33.33333%, #14ffe9 50.0%);
-	mix-blend-mode: screen;
-	pointer-events: none;
-  animation: move 1s linear infinite;
+.rainbow-text::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: -100%;
+  background: white repeating-linear-gradient(90deg, #14ffe9 0%, #ffc800 16.66666%, #ff00e0 33.33333%, #14ffe9 50%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: move 2s linear infinite;
 }
 
-@keyframes move{
-  0%{transform: translateX(0);}
-  100%{transform: translateX(50%);}
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(50%);
+  }
 }
 
 @supports not (mix-blend-mode: multiply) {
-	.rainbow-text{
-	-webkit-text-fill-color: transparent;
-	background-clip: text !important;
-	background: white repeating-linear-gradient(90deg, #14ffe9, #ffc800, #ff00e0, #14ffe9);
+  .rainbow-text {
+    -webkit-text-fill-color: transparent;
+    background-clip: text !important;
+    background-color: white repeating-linear-gradient(90deg, #14ffe9, #ffc800, #ff00e0, #14ffe9);
     text-shadow: none;
-	}
-	.rainbow-text::before{ content: none; }
-}
-    `);
-    document.adoptedStyleSheets.push(stylesheet);
   }
-  new ElementAddedObserver({
-    selector: "p"
-  }).subscribe(async (element, unsubscribe) => {
-    if (element instanceof HTMLParagraphElement) {
-      unsubscribe();
-      element.classList.add("rainbow-text");
-    }
-  });
+  .rainbow-text::before {
+    content: none;
+  }
 }
-main();
+`;
+
+// src/com.example.user.ts
+if (document && "adoptedStyleSheets" in document) {
+  const stylesheet = new CSSStyleSheet;
+  stylesheet.replaceSync(rainbow_text_default);
+  document.adoptedStyleSheets.push(stylesheet);
+}
+new ElementAddedObserver({
+  selector: "p"
+}).subscribe(async (element, unsubscribe) => {
+  if (element instanceof HTMLParagraphElement) {
+    unsubscribe();
+    element.classList.add("rainbow-text");
+  }
+});
