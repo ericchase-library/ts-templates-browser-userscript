@@ -1,4 +1,4 @@
-import { Processor_UserscriptBundler } from './lib-browser-userscript/Processor-UserscriptBundler.js';
+import { Processor_UserscriptBundler } from './lib-browser-userscript/processors/TypeScript-UserscriptBundler.js';
 import { Builder } from './lib/Builder.js';
 import { Processor_BasicWriter } from './lib/processors/FS-BasicWriter.js';
 import { Processor_HTML_CustomComponent } from './lib/processors/HTML-CustomComponent.js';
@@ -17,17 +17,18 @@ const builder = new Builder(Bun.argv[2] === '--watch' ? 'watch' : 'build');
 builder.setStartUpSteps(
   Step_Bun_Run({ cmd: ['bun', 'install'] }, 'quiet'),
   Step_CleanDirectory(builder.dir.out),
-  Step_Format('quiet'), //
+  Step_Format('quiet'),
+  //
 );
 
 // These steps are run before each processing phase.
 builder.setBeforeProcessingSteps();
 
-// Basic setup for a typescript powered extension. Typescript files that match
-// "*.module.ts" and "*.script.ts" are bundled and written to the out folder.
+// Basic setup for a typescript powered project. Typescript files that match
+// "*.module.ts" and "*.iife.ts" are bundled and written to the out folder.
 // The other typescript files do not produce bundles. Module ("*.module.ts")
 // files will not bundle other module files. Instead, they'll import whatever
-// exports are needed from other module files. Script ("*.script.ts") files, on
+// exports are needed from other module files. IIFE ("*.iife.ts") files, on
 // the other hand, produce fully contained bundles. They do not import anything
 // from anywhere. Use them accordingly.
 
@@ -44,11 +45,13 @@ builder.setProcessorModules(
   Processor_TypeScript_GenericBundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
   Processor_TypeScript_GenericBundlerImportRemapper(),
   Processor_BasicWriter([`**/*${pattern.moduleoriife}`, `**/*{.user}${pattern.tstsxjsjsx}`, '**/index.html'], []),
+  //
 );
 
 // These steps are run after each processing phase.
 builder.setAfterProcessingSteps(
-  Step_DevServer(), //
+  Step_DevServer(),
+  //
 );
 
 // These steps are run during the shutdown phase only.

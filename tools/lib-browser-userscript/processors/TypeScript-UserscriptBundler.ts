@@ -1,6 +1,7 @@
-import { Logger } from '../../src/lib/ericchase/Utility/Logger.js';
-import { BuilderInternal, ProcessorModule, ProjectFile } from '../lib/Builder.js';
-import { pattern, ProcessBunBuildResults } from '../lib/processors/TypeScript-GenericBundler.js';
+import { IntoPattern } from '../../../src/lib/ericchase/Platform/FilePath.js';
+import { Logger } from '../../../src/lib/ericchase/Utility/Logger.js';
+import { BuilderInternal, ProcessorModule, ProjectFile } from '../../lib/Builder.js';
+import { pattern, ProcessBunBuildResults } from '../../lib/processors/TypeScript-GenericBundler.js';
 
 const logger = Logger(Processor_UserscriptBundler.name);
 
@@ -28,11 +29,14 @@ class CProcessor_UserscriptBundler implements ProcessorModule {
   async onAdd(builder: BuilderInternal, files: Set<ProjectFile>): Promise<void> {
     let trigger_reprocess = false;
     for (const file of files) {
-      if (builder.platform.Utility.globMatch(file.src_path.standard, `**/*{.user}${pattern.tstsxjsjsx}`)) {
+      const file_pattern = IntoPattern(file.src_path);
+      if (builder.platform.Utility.globMatch(file_pattern, `**/*{.user}${pattern.tstsxjsjsx}`)) {
         file.out_path.ext = '.js';
         file.addProcessor(this, this.onProcessUserScript);
         this.bundlefile_set.add(file);
-      } else if (builder.platform.Utility.globMatch(file.src_path.standard, `**/*${pattern.tstsxjsjsx}`)) {
+        continue;
+      }
+      if (builder.platform.Utility.globMatch(file_pattern, `**/*${pattern.tstsxjsjsx}`)) {
         trigger_reprocess = true;
       }
     }
@@ -45,9 +49,12 @@ class CProcessor_UserscriptBundler implements ProcessorModule {
   async onRemove(builder: BuilderInternal, files: Set<ProjectFile>): Promise<void> {
     let trigger_reprocess = false;
     for (const file of files) {
-      if (builder.platform.Utility.globMatch(file.src_path.standard, `**/*{.user}${pattern.tstsxjsjsx}`)) {
+      const file_pattern = IntoPattern(file.src_path);
+      if (builder.platform.Utility.globMatch(file_pattern, `**/*{.user}${pattern.tstsxjsjsx}`)) {
         this.bundlefile_set.delete(file);
-      } else if (builder.platform.Utility.globMatch(file.src_path.standard, `**/*${pattern.tstsxjsjsx}`)) {
+        continue;
+      }
+      if (builder.platform.Utility.globMatch(file_pattern, `**/*${pattern.tstsxjsjsx}`)) {
         trigger_reprocess = true;
       }
     }
