@@ -13,10 +13,10 @@
 // This is a userscript for use during development. It injects both the example
 // userscript and script for reshing the page when relevant files are modified.
 
-import { InjectScript } from './lib/ericchase/Platform/Web/InjectScript.js';
+import { WebPlatform_DOM_Inject_Script } from './lib/ericchase/WebPlatform_DOM_Inject_Script.js';
 import { SERVER_HOST } from './lib/server/constants.js';
 
 (async () => {
-  InjectScript(await fetch(`http://${SERVER_HOST}/com.example.user.js`).then((response) => response.text()));
-  InjectScript(await fetch(`http://${SERVER_HOST}/lib/server/hotrefresh.iife.js`).then((response) => response.text()));
+  WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/com.example.user.js`).then((response) => response.text()));
+  WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/lib/server/hotrefresh.iife.js`).then((response) => response.text()));
 })();

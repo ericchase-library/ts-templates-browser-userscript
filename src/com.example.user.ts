@@ -12,7 +12,7 @@
 
 // This is the example that gets bundled into a final publishable userscript.
 
-import { ElementAddedObserver } from './lib/ericchase/Platform/Web/DOM/MutationObserver/ElementAdded.js';
+import { WebPlatform_DOM_Element_Added_Observer_Class } from './lib/ericchase/WebPlatform_DOM_Element_Added_Observer_Class.js';
 import rainbow_text_styles from './rainbow-text.css' assert { type: 'text' };
 
 if (document && 'adoptedStyleSheets' in document) {
@@ -21,7 +21,7 @@ if (document && 'adoptedStyleSheets' in document) {
   document.adoptedStyleSheets.push(stylesheet);
 }
 
-new ElementAddedObserver({
+WebPlatform_DOM_Element_Added_Observer_Class({
   selector: 'p',
 }).subscribe(async (element, unsubscribe) => {
   if (element instanceof HTMLParagraphElement) {

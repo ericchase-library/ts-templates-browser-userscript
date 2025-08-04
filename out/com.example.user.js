@@ -10,35 +10,34 @@
 // @homepageURL https://github.com/ericchase-library/ts-templates-browser-userscript
 // ==/UserScript==
 
-// src/lib/ericchase/Platform/Web/DOM/MutationObserver/ElementAdded.ts
-class ElementAddedObserver {
-  constructor({
-    source = document.documentElement,
-    options = { subtree: true },
-    selector,
-    includeExistingElements = true
-  }) {
+// src/lib/ericchase/WebPlatform_DOM_Element_Added_Observer_Class.ts
+class Class_WebPlatform_DOM_Element_Added_Observer_Class {
+  constructor(config) {
+    config.include_existing_elements ??= true;
+    config.options ??= {};
+    config.options.subtree ??= true;
+    config.source ??= document.documentElement;
     this.mutationObserver = new MutationObserver((mutationRecords) => {
       for (const record of mutationRecords) {
-        if (record.target instanceof Element && record.target.matches(selector)) {
+        if (record.target instanceof Element && record.target.matches(config.selector)) {
           this.send(record.target);
         }
         const treeWalker = document.createTreeWalker(record.target, NodeFilter.SHOW_ELEMENT);
         while (treeWalker.nextNode()) {
-          if (treeWalker.currentNode.matches(selector)) {
+          if (treeWalker.currentNode.matches(config.selector)) {
             this.send(treeWalker.currentNode);
           }
         }
       }
     });
-    this.mutationObserver.observe(source, {
+    this.mutationObserver.observe(config.source, {
       childList: true,
-      subtree: options.subtree ?? true
+      subtree: config.options.subtree ?? true
     });
-    if (includeExistingElements === true) {
+    if (config.include_existing_elements === true) {
       const treeWalker = document.createTreeWalker(document, NodeFilter.SHOW_ELEMENT);
       while (treeWalker.nextNode()) {
-        if (treeWalker.currentNode.matches(selector)) {
+        if (treeWalker.currentNode.matches(config.selector)) {
           this.send(treeWalker.currentNode);
         }
       }
@@ -79,6 +78,9 @@ class ElementAddedObserver {
     }
   }
 }
+function WebPlatform_DOM_Element_Added_Observer_Class(config) {
+  return new Class_WebPlatform_DOM_Element_Added_Observer_Class(config);
+}
 
 // src/rainbow-text.css
 var rainbow_text_default = `/* Found this stylesheet at https://codepen.io/MauriciAbad/pen/eqvKMx */
@@ -95,7 +97,7 @@ var rainbow_text_default = `/* Found this stylesheet at https://codepen.io/Mauri
   margin: -2px -4px -6px;
 }
 .rainbow-text::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   right: 0;
@@ -135,7 +137,7 @@ if (document && "adoptedStyleSheets" in document) {
   stylesheet.replaceSync(rainbow_text_default);
   document.adoptedStyleSheets.push(stylesheet);
 }
-new ElementAddedObserver({
+WebPlatform_DOM_Element_Added_Observer_Class({
   selector: "p"
 }).subscribe(async (element, unsubscribe) => {
   if (element instanceof HTMLParagraphElement) {

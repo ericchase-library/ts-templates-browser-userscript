@@ -1,28 +1,33 @@
-import { Processor_TypeScript_UserscriptBundler } from './lib-browser-userscript/processors/TypeScript-UserscriptBundler.js';
-import { Builder } from './lib/Builder.js';
-import { Processor_BasicWriter } from './lib/processors/FS-BasicWriter.js';
-import { Processor_HTML_CustomComponent } from './lib/processors/HTML-CustomComponent.js';
-import { Processor_HTML_ImportConverter } from './lib/processors/HTML-ImportConverter.js';
-import { Processor_TypeScript_GenericBundlerImportRemapper } from './lib/processors/TypeScript-GenericBundler-ImportRemapper.js';
-import { pattern, Processor_TypeScript_GenericBundler } from './lib/processors/TypeScript-GenericBundler.js';
-import { Step_Bun_Run } from './lib/steps/Bun-Run.js';
-import { DEVSERVERHOST, Step_DevServer } from './lib/steps/Dev-Server.js';
-import { Step_CleanDirectory } from './lib/steps/FS-CleanDirectory.js';
-import { Step_Format } from './lib/steps/FS-Format.js';
+import { BunPlatform_Args_Has } from '../src/lib/ericchase/BunPlatform_Args_Has.js';
+import { Step_Dev_Format } from './core-dev/step/Step_Dev_Format.js';
+import { Step_Dev_Project_Sync_Config } from './core-dev/step/Step_Dev_Project_Sync_Config.js';
+import { Processor_HTML_Custom_Component_Processor } from './core-web/processor/Processor_HTML_Custom_Component_Processor.js';
+import { DEVSERVERHOST, Step_Dev_Server } from './core-web/step/Step_Dev_Server.js';
+import { Builder } from './core/Builder.js';
+import { Processor_Set_Writable } from './core/processor/Processor_Set_Writable.js';
+import { Step_Bun_Run } from './core/step/Step_Bun_Run.js';
+import { Step_FS_Clean_Directory } from './core/step/Step_FS_Clean_Directory.js';
+import { Processor_TypeScript_UserScript_Bundler } from './lib-browser-userscript/processors/Processor_TypeScript_UserScript_Bundler.js';
+import { Step_Dev_Generate_Links } from './lib-browser-userscript/steps/Step_Dev_Generate_Links.js';
 
 // Use command line arguments to set watch mode.
-const builder = new Builder(Bun.argv[2] === '--watch' ? 'watch' : 'build');
+if (BunPlatform_Args_Has('--dev')) {
+  Builder.SetMode(Builder.MODE.DEV);
+}
+Builder.SetVerbosity(Builder.VERBOSITY._1_LOG);
 
 // These steps are run during the startup phase only.
-builder.setStartUpSteps(
-  Step_Bun_Run({ cmd: ['bun', 'install'] }, 'quiet'),
-  Step_CleanDirectory(builder.dir.out),
-  Step_Format('quiet'),
+Builder.SetStartUpSteps(
+  Step_Bun_Run({ cmd: ['bun', 'update', '--latest'], showlogs: false }),
+  Step_Bun_Run({ cmd: ['bun', 'install'], showlogs: false }),
+  Step_FS_Clean_Directory(Builder.Dir.Out),
+  Step_Dev_Project_Sync_Config({ project_path: './' }),
+  Step_Dev_Format({ showlogs: false }),
   //
 );
 
 // These steps are run before each processing phase.
-builder.setBeforeProcessingSteps();
+Builder.SetBeforeProcessingSteps();
 
 // Basic setup for a typescript powered project. Typescript files that match
 // "*.module.ts" and "*.iife.ts" are bundled and written to the out folder.
@@ -37,28 +42,26 @@ builder.setBeforeProcessingSteps();
 
 // The processors are run for every file that added them during every
 // processing phase.
-builder.setProcessorModules(
-  Processor_HTML_CustomComponent(),
-  Processor_HTML_ImportConverter(),
+Builder.SetProcessorModules(
+  // Process the custom html components.
+  Processor_HTML_Custom_Component_Processor(),
   // Bundle the userscripts.
-  Processor_TypeScript_UserscriptBundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
-  // Bundle the modules for hot refresh.
-  Processor_TypeScript_GenericBundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
-  Processor_TypeScript_GenericBundlerImportRemapper(),
-  // Write bundled files.
-  Processor_BasicWriter([`**/*${pattern.moduleoriife}`, `**/*{.user}${pattern.tstsxjsjsx}`, '**/index.html'], []),
+  Processor_TypeScript_UserScript_Bundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
+  // Write non-bundle files and non-library files.
+  Processor_Set_Writable({ include_patterns: ['**/index.html'] }),
   //
 );
 
 // These steps are run after each processing phase.
-builder.setAfterProcessingSteps(
+Builder.SetAfterProcessingSteps(
+  Step_Dev_Generate_Links(),
   // During "dev" mode (when "--watch" is passed as an argument), the server
   // will start running with hot refreshing if enabled in your index file.
-  Step_DevServer(),
+  Step_Dev_Server(),
   //
 );
 
 // These steps are run during the shutdown phase only.
-builder.setCleanUpSteps();
+Builder.SetCleanUpSteps();
 
-await builder.start();
+await Builder.Start();

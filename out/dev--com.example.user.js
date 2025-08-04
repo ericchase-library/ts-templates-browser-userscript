@@ -10,14 +10,12 @@
 // @homepageURL https://github.com/ericchase-library/ts-templates-browser-userscript
 // ==/UserScript==
 
-// src/lib/ericchase/Platform/Web/InjectScript.ts
-function InjectScript(code) {
-  if (document) {
-    const script = document.createElement("script");
-    script.textContent = code;
-    document.body.appendChild(script);
-    return script;
-  }
+// src/lib/ericchase/WebPlatform_DOM_Inject_Script.ts
+function WebPlatform_DOM_Inject_Script(code) {
+  const script = document.createElement("script");
+  script.textContent = code;
+  document.body.appendChild(script);
+  return script;
 }
 
 // src/lib/server/constants.ts
@@ -25,6 +23,6 @@ var SERVER_HOST = "127.0.0.1:8000";
 
 // src/dev--com.example.user.ts
 (async () => {
-  InjectScript(await fetch(`http://${SERVER_HOST}/com.example.user.js`).then((response) => response.text()));
-  InjectScript(await fetch(`http://${SERVER_HOST}/lib/server/hotrefresh.iife.js`).then((response) => response.text()));
+  WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/com.example.user.js`).then((response) => response.text()));
+  WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/lib/server/hotrefresh.iife.js`).then((response) => response.text()));
 })();
