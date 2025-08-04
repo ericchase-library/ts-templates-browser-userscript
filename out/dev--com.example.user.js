@@ -2,7 +2,7 @@
 // @name        example.com: example userscript
 // @author      ericchase
 // @namespace   ericchase
-// @match       https://example.com/*
+// @match       https://*.example.com/*
 // @version     1.0.0
 // @description 3/31/2025, 5:38:51 PM
 // @run-at      document-start
