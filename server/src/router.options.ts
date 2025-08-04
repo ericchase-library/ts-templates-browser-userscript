@@ -14,7 +14,7 @@ export function options(req: Request, url: URL, pathname: string): Promise<Respo
           headers: {
             // "Access-Control-Allow-Credentials": "true",
             'Access-Control-Allow-Headers': 'content-type',
-            'Access-Control-Allow-Methods': 'GET, POST',
+            'Access-Control-Allow-Methods': 'POST',
             'Access-Control-Allow-Origin': '*',
             // "Access-Control-Expose-Headers": "* or [<header-name>[, <header-name>]*]",
             // "Access-Control-Max-Age": "<delta-seconds>",

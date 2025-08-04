@@ -24,5 +24,5 @@ var SERVER_HOST = "127.0.0.1:8000";
 // src/dev--com.example.user.ts
 (async () => {
   WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/com.example.user.js`).then((response) => response.text()));
-  WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/lib/server/hotrefresh.iife.js`).then((response) => response.text()));
+  WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/dev/hotrefresh.iife.js`).then((response) => response.text()));
 })();

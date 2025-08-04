@@ -4,7 +4,7 @@ import { Step_Dev_Project_Sync_Config } from './core-dev/step/Step_Dev_Project_S
 import { Processor_HTML_Custom_Component_Processor } from './core-web/processor/Processor_HTML_Custom_Component_Processor.js';
 import { DEVSERVERHOST, Step_Dev_Server } from './core-web/step/Step_Dev_Server.js';
 import { Builder } from './core/Builder.js';
-import { Processor_Set_Writable } from './core/processor/Processor_Set_Writable.js';
+import { Processor_TypeScript_Generic_Bundler } from './core/processor/Processor_TypeScript_Generic_Bundler.js';
 import { Step_Bun_Run } from './core/step/Step_Bun_Run.js';
 import { Step_FS_Clean_Directory } from './core/step/Step_FS_Clean_Directory.js';
 import { Processor_TypeScript_UserScript_Bundler } from './lib-browser-userscript/processors/Processor_TypeScript_UserScript_Bundler.js';
@@ -47,8 +47,8 @@ Builder.SetProcessorModules(
   Processor_HTML_Custom_Component_Processor(),
   // Bundle the userscripts.
   Processor_TypeScript_UserScript_Bundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
-  // Write non-bundle files and non-library files.
-  Processor_Set_Writable({ include_patterns: ['**/index.html'] }),
+  // Bundle the iife scripts.
+  Processor_TypeScript_Generic_Bundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }), target: 'browser' }),
   //
 );
 
