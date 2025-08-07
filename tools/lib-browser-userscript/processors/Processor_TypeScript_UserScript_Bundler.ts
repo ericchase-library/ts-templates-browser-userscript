@@ -83,7 +83,7 @@ class Class implements Builder.Processor {
           },
           sourcemap: this.config.sourcemap,
           target: 'browser',
-          banner: await GetUserscriptHeader(file),
+          banner: await GetUserScriptHeader(file),
         }),
       );
       if (results.bundletext !== undefined) {
@@ -164,7 +164,7 @@ async function ProcessBuildResults(buildtask: Promise<Bun.BuildOutput>): Promise
   }
   return out;
 }
-async function GetUserscriptHeader(file: Builder.File) {
+async function GetUserScriptHeader(file: Builder.File) {
   const text = await file.getText();
   const start = text.match(/^\/\/.*?==UserScript==.*?$/dim);
   const end = text.match(/^\/\/.*?==\/UserScript==.*?$/dim);

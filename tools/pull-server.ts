@@ -7,7 +7,7 @@ import { Step_Bun_Run } from './core/step/Step_Bun_Run.js';
 
 Builder.SetStartUpSteps(
   Step_Bun_Run({ cmd: ['bun', 'install'], showlogs: false }),
-  Step_Dev_Project_Sync_Server({ from_path: 'C:/Code/Base/JavaScript-TypeScript/Templates/Browser-Userscript', to_path: './' }),
+  Step_Dev_Project_Sync_Server({ from_path: 'C:/Code/Base/JavaScript-TypeScript/Templates/Browser-UserScript', to_path: './' }),
   Step_Dev_Format({ showlogs: false }),
   //
 );
