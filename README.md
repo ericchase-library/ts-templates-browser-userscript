@@ -4,11 +4,14 @@ https://github.com/ericchase-library/ts-templates-browser-userscript
 
 This project houses the base browser UserScript template project that I use to create new browser UserScript projects.
 
-UserScripts are used with extensions like Greasemonkey, Violentmonkey, Tampermonkey, etc modify existing websites. This project allows you to write these scripts in TypeScript and compile them into JavaScript using my custom build tool.
+UserScripts are used with extensions like Greasemonkey, Violentmonkey, and Tampermonkey to modify existing websites.
 
-- ~~[Violentmonkey for Chrome](https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/)~~
-  - UserScript managers are no longer supported on Chrome.
+- ~~[Violentmonkey for Chrome](https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/)~~ UserScript managers are no longer supported on Chrome.
 - [Violentmonkey for Firefox](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/)
+
+For more information, please check out the template project:
+
+- https://github.com/ericchase-library/ts-templates-browser-userscript
 
 Try out the example script in this repo:
 
