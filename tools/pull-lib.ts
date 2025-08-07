@@ -4,8 +4,8 @@ import { Step_FS_Mirror_Directory } from './core/step/Step_FS_Mirror_Directory.j
 
 Builder.SetStartUpSteps(
   Step_FS_Mirror_Directory({
-    from_path: NODE_PATH.join('C:/Code/Base/JavaScript-TypeScript/Templates/Browser-Userscript', 'tools/lib-browser-extension'),
-    to_path: NODE_PATH.join(Builder.Dir.Tools, 'lib-browser-extension'),
+    from_path: NODE_PATH.join('C:/Code/Base/JavaScript-TypeScript/Templates/Browser-Userscript', 'tools/lib-browser-userscript'),
+    to_path: NODE_PATH.join(Builder.Dir.Tools, 'lib-browser-userscript'),
     include_patterns: ['**/*'],
   }),
   //
