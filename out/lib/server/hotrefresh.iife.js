@@ -47,7 +47,7 @@ class CHotRefresh {
   }
 }
 
-// src/dev/hotrefresh.iife.ts
+// src/lib/server/hotrefresh.iife.ts
 HotRefresh();
 
 })();
