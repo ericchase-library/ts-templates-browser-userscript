@@ -1,6 +1,5 @@
 import { BunPlatform_Args_Has } from '../src/lib/ericchase/BunPlatform_Args_Has.js';
 import { Step_Dev_Format } from './core-dev/step/Step_Dev_Format.js';
-import { Step_Dev_Project_Sync_Config } from './core-dev/step/Step_Dev_Project_Sync_Config.js';
 import { Processor_HTML_Custom_Component_Processor } from './core-web/processor/Processor_HTML_Custom_Component_Processor.js';
 import { DEVSERVERHOST, Step_Dev_Server } from './core-web/step/Step_Dev_Server.js';
 import { Builder } from './core/Builder.js';
@@ -10,7 +9,7 @@ import { Step_FS_Clean_Directory } from './core/step/Step_FS_Clean_Directory.js'
 import { Processor_TypeScript_UserScript_Bundler } from './lib-browser-userscript/processors/Processor_TypeScript_UserScript_Bundler.js';
 import { Step_Dev_Generate_Links } from './lib-browser-userscript/steps/Step_Dev_Generate_Links.js';
 
-// Use command line arguments to set watch mode.
+// Use command line arguments to set dev mode.
 if (BunPlatform_Args_Has('--dev')) {
   Builder.SetMode(Builder.MODE.DEV);
 }
@@ -21,7 +20,6 @@ Builder.SetStartUpSteps(
   Step_Bun_Run({ cmd: ['bun', 'update', '--latest'], showlogs: false }),
   Step_Bun_Run({ cmd: ['bun', 'install'], showlogs: false }),
   Step_FS_Clean_Directory(Builder.Dir.Out),
-  Step_Dev_Project_Sync_Config({ project_path: './' }),
   Step_Dev_Format({ showlogs: false }),
   //
 );
@@ -55,7 +53,7 @@ Builder.SetProcessorModules(
 // These steps are run after each processing phase.
 Builder.SetAfterProcessingSteps(
   Step_Dev_Generate_Links(),
-  // During "dev" mode (when "--watch" is passed as an argument), the server
+  // During "dev" mode (when "--dev" is passed as an argument), the server
   // will start running with hot refreshing if enabled in your index file.
   Step_Dev_Server(),
   //
