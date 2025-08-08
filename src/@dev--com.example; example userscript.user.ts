@@ -1,7 +1,5 @@
 // ==UserScript==
-// @name        example.com: example userscript
-// @author      ericchase
-// @namespace   ericchase
+// @name        @dev--com.example; example userscript
 // @match       https://*.example.com/*
 // @version     1.0.0
 // @description 3/31/2025, 5:38:51 PM
@@ -14,9 +12,12 @@
 // userscript and script for reshing the page when relevant files are modified.
 
 import { WebPlatform_DOM_Inject_Script } from './lib/ericchase/WebPlatform_DOM_Inject_Script.js';
+import { Async_WebPlatform_DOM_ReadyState_Callback } from './lib/ericchase/WebPlatform_DOM_ReadyState_Callback.js';
 import { SERVER_HOST } from './lib/server/constants.js';
 
-(async () => {
-  WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/com.example.user.js`).then((response) => response.text()));
-  WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/lib/server/hotrefresh.iife.js`).then((response) => response.text()));
-})();
+Async_WebPlatform_DOM_ReadyState_Callback({
+  async DOMContentLoaded() {
+    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/com.example.user.js`).then((response) => response.text()));
+    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/lib/server/hotrefresh.iife.js`).then((response) => response.text()));
+  },
+});

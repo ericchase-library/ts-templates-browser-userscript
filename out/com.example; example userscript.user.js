@@ -1,7 +1,5 @@
 // ==UserScript==
-// @name        example.com: example userscript
-// @author      ericchase
-// @namespace   ericchase
+// @name        com.example; example userscript
 // @match       https://*.example.com/*
 // @version     1.0.0
 // @description 3/31/2025, 5:38:51 PM
@@ -82,6 +80,38 @@ function WebPlatform_DOM_Element_Added_Observer_Class(config) {
   return new Class_WebPlatform_DOM_Element_Added_Observer_Class(config);
 }
 
+// src/lib/ericchase/WebPlatform_DOM_ReadyState_Callback.ts
+async function Async_WebPlatform_DOM_ReadyState_Callback(config) {
+  async function DOMContentLoaded() {
+    removeEventListener("DOMContentLoaded", DOMContentLoaded);
+    await config.DOMContentLoaded?.();
+  }
+  async function load() {
+    removeEventListener("load", load);
+    await config.load?.();
+  }
+  switch (document.readyState) {
+    case "loading":
+      if (config.DOMContentLoaded !== undefined) {
+        addEventListener("DOMContentLoaded", DOMContentLoaded);
+      }
+      if (config.load !== undefined) {
+        addEventListener("load", load);
+      }
+      break;
+    case "interactive":
+      await config.DOMContentLoaded?.();
+      if (config.load !== undefined) {
+        addEventListener("load", load);
+      }
+      break;
+    case "complete":
+      await config.DOMContentLoaded?.();
+      await config.load?.();
+      break;
+  }
+}
+
 // src/rainbow-text.css
 var rainbow_text_default = `/* Found this stylesheet at https://codepen.io/MauriciAbad/pen/eqvKMx */
 
@@ -131,17 +161,21 @@ var rainbow_text_default = `/* Found this stylesheet at https://codepen.io/Mauri
 }
 `;
 
-// src/com.example.user.ts
-if (document && "adoptedStyleSheets" in document) {
-  const stylesheet = new CSSStyleSheet;
-  stylesheet.replaceSync(rainbow_text_default);
-  document.adoptedStyleSheets.push(stylesheet);
-}
-WebPlatform_DOM_Element_Added_Observer_Class({
-  selector: "p"
-}).subscribe(async (element, unsubscribe) => {
-  if (element instanceof HTMLParagraphElement) {
-    unsubscribe();
-    element.classList.add("rainbow-text");
+// src/com.example; example userscript.user.ts
+Async_WebPlatform_DOM_ReadyState_Callback({
+  async load() {
+    if (document && "adoptedStyleSheets" in document) {
+      const stylesheet = new CSSStyleSheet;
+      stylesheet.replaceSync(rainbow_text_default);
+      document.adoptedStyleSheets.push(stylesheet);
+    }
+    WebPlatform_DOM_Element_Added_Observer_Class({
+      selector: "p"
+    }).subscribe(async (element, unsubscribe) => {
+      if (element instanceof HTMLParagraphElement) {
+        unsubscribe();
+        element.classList.add("rainbow-text");
+      }
+    });
   }
 });
