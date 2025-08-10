@@ -45,10 +45,10 @@ Builder.SetBeforeProcessingSteps();
 Builder.SetProcessorModules(
   // Process the custom html components.
   Processor_HTML_Custom_Component_Processor(),
-  // Bundle the userscripts.
-  Processor_TypeScript_UserScript_Bundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
   // Bundle the iife scripts.
   Processor_TypeScript_Generic_Bundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }), target: 'browser' }),
+  // Bundle the userscripts.
+  Processor_TypeScript_UserScript_Bundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
   //
 );
 

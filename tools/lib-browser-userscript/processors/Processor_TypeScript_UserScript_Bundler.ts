@@ -6,6 +6,8 @@ import { Builder } from '../../core/Builder.js';
 import { Logger } from '../../core/Logger.js';
 import { PATTERN } from '../../core/processor/Processor_TypeScript_Generic_Bundler.js';
 
+const PATTERN_USERSCRIPT = `{.user}${PATTERN.TS_TSX_JS_JSX}`;
+
 /**
  * External pattern cannot contain more than one "*" wildcard.
  *
@@ -31,7 +33,7 @@ class Class implements Builder.Processor {
     let trigger_reprocess = false;
     for (const file of files) {
       const query = file.src_path;
-      if (BunPlatform_Glob_Match(query, `**/*{.user}${PATTERN.TS_TSX_JS_JSX}`)) {
+      if (BunPlatform_Glob_Match(query, `**/*${PATTERN_USERSCRIPT}`)) {
         file.iswritable = true;
         file.out_path = NodePlatform_PathObject_Relative_Class(file.out_path).replaceExt('.js').join();
         file.addProcessor(this, this.onProcessUserScript);
@@ -39,7 +41,6 @@ class Class implements Builder.Processor {
         continue;
       }
       if (BunPlatform_Glob_Match(query, `**/*${PATTERN.TS_TSX_JS_JSX}`)) {
-        file.iswritable = false;
         trigger_reprocess = true;
       }
     }
@@ -53,7 +54,7 @@ class Class implements Builder.Processor {
     let trigger_reprocess = false;
     for (const file of files) {
       const query = file.src_path;
-      if (BunPlatform_Glob_Match(query, `**/*{.user}${PATTERN.TS_TSX_JS_JSX}`)) {
+      if (BunPlatform_Glob_Match(query, `**/*${PATTERN_USERSCRIPT}`)) {
         this.bundle_set.delete(file);
         continue;
       }
