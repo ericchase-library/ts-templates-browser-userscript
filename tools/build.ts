@@ -46,7 +46,7 @@ Builder.SetProcessorModules(
   // Process the custom html components.
   Processor_HTML_Custom_Component_Processor(),
   // Bundle the iife scripts.
-  Processor_TypeScript_Generic_Bundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }), target: 'browser' }),
+  Processor_TypeScript_Generic_Bundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }), target: 'browser' }, { bundler_mode: 'iife' }),
   // Bundle the userscripts.
   Processor_TypeScript_UserScript_Bundler({ define: () => ({ 'process.env.DEVSERVERHOST': JSON.stringify(DEVSERVERHOST) }) }),
   //
@@ -54,7 +54,7 @@ Builder.SetProcessorModules(
 
 // These steps are run after each processing phase.
 Builder.SetAfterProcessingSteps(
-  Step_Dev_Generate_Links({ dirpath: Builder.Dir.Out, pattern: `**/*{.user}${PATTERN.TS_TSX_JS_JSX}` }),
+  Step_Dev_Generate_Links({ dirpath: Builder.Dir.Out, pattern: `**/*{.user}${PATTERN.JS_JSX_TS_TSX}` }),
   // During "dev" mode (when "--dev" is passed as an argument), the server
   // will start running with hot refreshing if enabled in your index file.
   Step_Dev_Server(),
