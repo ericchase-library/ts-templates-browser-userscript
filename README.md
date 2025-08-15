@@ -1,7 +1,5 @@
 ## About
 
-https://github.com/ericchase-library/ts-templates-browser-userscript
-
 This project houses the base browser UserScript template project that I use to create new browser UserScript projects.
 
 UserScripts are used with extensions like Greasemonkey, Violentmonkey, and Tampermonkey to modify existing websites.
@@ -27,6 +25,7 @@ For examples, take a look at my personal UserScript repo:
 For information about my TypeScript library and Build Tools, please visit:
 
 - https://github.com/ericchase-library/ts-library
+- https://github.com/ericchase-library/ts-templates-browser-userscript
 
 ## Project Disclaimer
 
