@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name        com.example; example userscript
+// @name        @dev--com.example; example userscript
 // @match       https://*.example.com/*
 // @version     1.0.0
-// @description 3/31/2025, 5:38:51 PM
+// @description 2025/03/31, 5:38:51 PM
 // @run-at      document-start
 // @grant       none
 // @homepageURL https://github.com/ericchase-library/ts-templates-browser-userscript

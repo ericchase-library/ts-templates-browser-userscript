@@ -2,7 +2,7 @@
 // @name        @dev--com.example; example userscript
 // @match       https://*.example.com/*
 // @version     1.0.0
-// @description 3/31/2025, 5:38:51 PM
+// @description 2025/03/31, 5:38:51 PM
 // @run-at      document-start
 // @grant       none
 // @homepageURL https://github.com/ericchase-library/ts-templates-browser-userscript
@@ -50,12 +50,33 @@ async function Async_WebPlatform_DOM_ReadyState_Callback(config) {
 }
 
 // src/lib/server/constants.ts
-var SERVER_HOST = "127.0.0.1:8000";
+var SERVERHOST = CheckENV() ?? CheckCurrentScript() ?? CheckMetaUrl() ?? CheckError() ?? window.location.host;
+function CheckENV() {
+  try {
+    return;
+  } catch {}
+}
+function CheckCurrentScript() {
+  try {
+    return new URL(document.currentScript.src).host;
+  } catch {}
+}
+function CheckMetaUrl() {
+  try {
+    return new URL(undefined).host;
+  } catch {}
+}
+function CheckError() {
+  try {
+    return new URL(new Error().fileName).host;
+  } catch {}
+}
 
 // src/@dev--com.example; example userscript.user.ts
 Async_WebPlatform_DOM_ReadyState_Callback({
   async DOMContentLoaded() {
-    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/com.example.user.js`).then((response) => response.text()));
-    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVER_HOST}/lib/server/hotrefresh.iife.js`).then((response) => response.text()));
+    console.log(SERVERHOST);
+    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVERHOST}/com.example; example userscript.user.js`).then((response) => response.text()));
+    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVERHOST}/lib/server/enable-hot-reload.iife.js`).then((response) => response.text()));
   }
 });
