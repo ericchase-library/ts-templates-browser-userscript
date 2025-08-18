@@ -18,7 +18,6 @@ import { SERVERHOST } from './lib/server/constants.js';
 
 Async_WebPlatform_DOM_ReadyState_Callback({
   async DOMContentLoaded() {
-    console.log(SERVERHOST);
     WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVERHOST}/com.example; example userscript.user.js`).then((response) => response.text()));
     WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVERHOST}/lib/server/enable-hot-reload.iife.js`).then((response) => response.text()));
   },
