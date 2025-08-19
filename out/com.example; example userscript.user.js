@@ -27,7 +27,7 @@ class Class_WebPlatform_DOM_Element_Added_Observer_Class {
     });
     this.mutationObserver.observe(config.source ?? document.documentElement, {
       childList: true,
-      subtree: config.options.subtree ?? true
+      subtree: config.options.subtree ?? true,
     });
     if ((config.include_existing_elements ?? true) === true) {
       const treeWalker = document.createTreeWalker(document, NodeFilter.SHOW_ELEMENT);
@@ -52,16 +52,15 @@ class Class_WebPlatform_DOM_Element_Added_Observer_Class {
         this.subscriptionSet.delete(callback);
         abort = true;
       });
-      if (abort)
-        return () => {};
+      if (abort) return () => {};
     }
     return () => {
       this.subscriptionSet.delete(callback);
     };
   }
   mutationObserver;
-  matchSet = new Set;
-  subscriptionSet = new Set;
+  matchSet = new Set();
+  subscriptionSet = new Set();
   send(element) {
     if (!this.matchSet.has(element)) {
       this.matchSet.add(element);
@@ -80,29 +79,29 @@ function WebPlatform_DOM_Element_Added_Observer_Class(config) {
 // src/lib/ericchase/WebPlatform_DOM_ReadyState_Callback.ts
 async function Async_WebPlatform_DOM_ReadyState_Callback(config) {
   async function DOMContentLoaded() {
-    removeEventListener("DOMContentLoaded", DOMContentLoaded);
+    removeEventListener('DOMContentLoaded', DOMContentLoaded);
     await config.DOMContentLoaded?.();
   }
   async function load() {
-    removeEventListener("load", load);
+    removeEventListener('load', load);
     await config.load?.();
   }
   switch (document.readyState) {
-    case "loading":
+    case 'loading':
       if (config.DOMContentLoaded !== undefined) {
-        addEventListener("DOMContentLoaded", DOMContentLoaded);
+        addEventListener('DOMContentLoaded', DOMContentLoaded);
       }
       if (config.load !== undefined) {
-        addEventListener("load", load);
+        addEventListener('load', load);
       }
       break;
-    case "interactive":
+    case 'interactive':
       await config.DOMContentLoaded?.();
       if (config.load !== undefined) {
-        addEventListener("load", load);
+        addEventListener('load', load);
       }
       break;
-    case "complete":
+    case 'complete':
       await config.DOMContentLoaded?.();
       await config.load?.();
       break;
@@ -161,18 +160,18 @@ var rainbow_text_default = `/* Found this stylesheet at https://codepen.io/Mauri
 // src/com.example; example userscript.user.ts
 Async_WebPlatform_DOM_ReadyState_Callback({
   async load() {
-    if (document && "adoptedStyleSheets" in document) {
-      const stylesheet = new CSSStyleSheet;
+    if (document && 'adoptedStyleSheets' in document) {
+      const stylesheet = new CSSStyleSheet();
       stylesheet.replaceSync(rainbow_text_default);
       document.adoptedStyleSheets.push(stylesheet);
     }
     WebPlatform_DOM_Element_Added_Observer_Class({
-      selector: "p"
+      selector: 'p',
     }).subscribe(async (element, unsubscribe) => {
       if (element instanceof HTMLParagraphElement) {
         unsubscribe();
-        element.classList.add("rainbow-text");
+        element.classList.add('rainbow-text');
       }
     });
-  }
+  },
 });

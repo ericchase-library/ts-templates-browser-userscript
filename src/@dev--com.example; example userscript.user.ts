@@ -14,11 +14,11 @@
 
 import { WebPlatform_DOM_Inject_Script } from './lib/ericchase/WebPlatform_DOM_Inject_Script.js';
 import { Async_WebPlatform_DOM_ReadyState_Callback } from './lib/ericchase/WebPlatform_DOM_ReadyState_Callback.js';
-import { SERVERHOST } from './lib/server/constants.js';
+import { SERVERHOST } from './lib/server/info.js';
 
 Async_WebPlatform_DOM_ReadyState_Callback({
   async DOMContentLoaded() {
-    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVERHOST}/com.example; example userscript.user.js`).then((response) => response.text()));
-    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVERHOST}/lib/server/enable-hot-reload.iife.js`).then((response) => response.text()));
+    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVERHOST()}/com.example; example userscript.user.js`).then((response) => response.text()));
+    WebPlatform_DOM_Inject_Script(await fetch(`http://${SERVERHOST()}/lib/server/hot-reload.iife.js`).then((response) => response.text()));
   },
 });
