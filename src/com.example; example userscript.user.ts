@@ -12,7 +12,7 @@
 
 import { WebPlatform_DOM_Element_Added_Observer_Class } from './lib/ericchase/WebPlatform_DOM_Element_Added_Observer_Class.js';
 import { Async_WebPlatform_DOM_ReadyState_Callback } from './lib/ericchase/WebPlatform_DOM_ReadyState_Callback.js';
-import rainbow_text_styles from './rainbow-text.css' assert { type: 'text' };
+import rainbow_text_styles from './rainbow-text.css' with { type: 'text' };
 
 Async_WebPlatform_DOM_ReadyState_Callback({
   async load() {
