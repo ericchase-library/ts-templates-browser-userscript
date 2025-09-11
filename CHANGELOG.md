@@ -4,6 +4,8 @@ Please refer to the `ts-library` changelog for library and build tool changes:
 
 ## 2025-10-01
 
+- Add logic to ensure listing links have forward slashes
+
 ## 2025-09-01
 
 - Some minor changes here and there
