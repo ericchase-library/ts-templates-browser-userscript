@@ -6,6 +6,7 @@ Please refer to the `ts-library` changelog for library and build tool changes:
 
 - Add logic to ensure listing links have forward slashes
 - Sort links by extension during the `Step_Dev_Generate_Links` step
+- Library and package updates
 
 ## 2025-09-01
 
