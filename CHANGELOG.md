@@ -2,6 +2,10 @@ Please refer to the `ts-library` changelog for library and build tool changes:
 
 - https://github.com/ericchase-library/ts-library/blob/main/CHANGELOG.md
 
+## 2025-12-01
+
+- Add file extension headings to index page
+
 ## 2025-10-01
 
 - Add logic to ensure listing links have forward slashes
